@@ -86,7 +86,7 @@
 # import json
 # import ssl
 
-# api_key = "AIzaSyDXCR18bDmqoqZr0-FhvVMKwJRUaBPUSwo"
+# api_key = "process.env.api_key"
 
 # serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
 
