@@ -1,0 +1,4 @@
+AuthUserFile "C:\Temp\salasanat.txt"
+AuthType Basic
+AuthName "Linkkitietokannan ylläpito"
+require valid-user

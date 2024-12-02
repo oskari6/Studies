@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<auto rekisterinumero ="abc-123">
+    <omistaja>Meikäläinen, Matti</omistaja>
+    <hankintavuosi>1997</hankintavuosi>
+    <huomautukset>
+        Auto on hienossa kunnossa ja takuu on voimassa
+    </huomautukset>
+</auto>

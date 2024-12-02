@@ -1,0 +1,37 @@
+{
+  "kirja1": {
+    "nimi": "Aapinen",
+    "kirjailija": "Mikael Agrikola",
+    "id": 1,
+    "kappalehinta": 12.3,
+    "ISBN_tunnus": "978-952-63-5291-6"
+  },
+  "kirja2": {
+    "nimi": "C# ohjelmointi",
+    "kirjailija": "Ghodrat Moghadampour",
+    "id": 2,
+    "kappalehinta": 25.9,
+    "ISBN_tunnus": "978-952-63-0658-2"
+  },
+  "kirja13": {
+  "nimi": "kirja1",
+  "kirjailija": "Kirjoittaja1",
+  "id": 3,
+  "kappalehinta": 10.5,
+  "ISBN_tunnus": "999-999-99-9999-9"
+  },
+  "Ei saatavilla99": {
+  "nimi": "Ei saatavilla",
+  "kirjailija": "Ei saatavilla",
+  "id": 99,
+  "kappalehinta": 0.0,
+  "ISBN_tunnus": ""
+  },
+  "kirja34": {
+  "nimi": "kirja3",
+  "kirjailija": "Kirjoittaja3",
+  "id": 4,
+  "kappalehinta": 12.5,
+  "ISBN_tunnus": "000-000-00-0000-0"
+  }
+}

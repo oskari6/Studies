@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+group = 'com.files'
+version = '1.0-SNAPSHOT'
+application {
+    mainClass = 'com.files.Main'
+}
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.openjfx:javafx-controls:17'
+    implementation 'org.openjfx:javafx-fxml:17'
+    implementation 'org.openjfx:javafx-base:17'
+    implementation 'org.openjfx:javafx-graphics:17'
+    implementation 'org.openjfx:javafx-media:17'
+    implementation 'org.openjfx:javafx-swing:17'
+    implementation 'org.openjfx:javafx-web:17'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += [
+        '--module-path', 'C:/Program Files/Java/javafx-sdk-17.0.13/lib',
+        '--add-modules', 'javafx.controls,javafx.fxml,javafx.base,javafx.graphics,javafx.media,javafx.swing,javafx.web'
+    ]
+}
+
+tasks.named('run', JavaExec) {
+    jvmArgs = [
+        '--module-path', 'C:/Program Files/Java/javafx-sdk-17.0.13/lib',
+        '--add-modules', 'javafx.controls,javafx.fxml,javafx.base,javafx.graphics,javafx.media,javafx.swing,javafx.web'
+    ]
+}

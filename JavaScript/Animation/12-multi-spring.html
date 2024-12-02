@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Multi Spring</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script src="utils.js"></script>
+    <script src="ball.js"></script>
+    <script>
+      window.onload = function () {
+        var canvas = document.getElementById("canvas"),
+          context = canvas.getContext("2d"),
+          mouse = utils.captureMouse(canvas),
+          ball = new Ball(20),
+          handles = [],
+          numHandles = 3,
+          spring = 0.03,
+          friction = 0.9,
+          movingHandle = null;
+
+        console.log("Page loaded. Initializing handles.");
+
+        for (var handle, i = 0; i < numHandles; i++) {
+          handle = new Ball(10, "#0000ff");
+          handle.x = Math.random() * canvas.width;
+          handle.y = Math.random() * canvas.height;
+          handles.push(handle);
+          console.log("Handle created at: ", handle.x, handle.y);
+        }
+
+        canvas.addEventListener(
+          "mousedown",
+          function () {
+            console.log("Mouse down at: ", mouse.x, mouse.y);
+            handles.forEach(function (handle) {
+              if (utils.containsPoint(handle.getBounds(), mouse.x, mouse.y)) {
+                movingHandle = handle;
+                console.log("Handle selected:", handle);
+              }
+            });
+          },
+          false
+        );
+
+        canvas.addEventListener(
+          "mouseup",
+          function () {
+            if (movingHandle) {
+              console.log("Handle released:", movingHandle);
+              movingHandle = null;
+            }
+          },
+          false
+        );
+
+        canvas.addEventListener(
+          "mousemove",
+          function () {
+            if (movingHandle) {
+              movingHandle.x = mouse.x;
+              movingHandle.y = mouse.y;
+              console.log("Handle moved to:", movingHandle.x, movingHandle.y);
+            }
+          },
+          false
+        );
+
+        function applyHandle(handle) {
+          var dx = handle.x - ball.x,
+            dy = handle.y - ball.y;
+
+          ball.vx += dx * spring;
+          ball.vy += dy * spring;
+        }
+
+        function drawHandle(handle) {
+          context.moveTo(ball.x, ball.y);
+          context.lineTo(handle.x, handle.y);
+          context.stroke();
+          handle.draw(context);
+        }
+
+        (function drawFrame() {
+          window.requestAnimationFrame(drawFrame);
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          handles.forEach(applyHandle);
+
+          ball.vx *= friction;
+          ball.vy *= friction;
+          ball.x += ball.vx;
+          ball.y += ball.vy;
+
+          context.beginPath();
+          handles.forEach(drawHandle);
+          ball.draw(context);
+        })();
+      };
+    </script>
+  </body>
+</html>

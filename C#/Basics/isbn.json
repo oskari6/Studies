@@ -1,0 +1,34 @@
+{
+  "kirja1":
+  {
+  "nimi": "Aapinen",
+  "kirjailija": "Mikael Agrikola",
+  "id": "00001",
+  "kappalehinta": 12.30,
+  "ISBN-tunnus": "978-952-63-5291-6"
+  },
+  "kirja2":
+  {
+  "nimi": "C# ohjelmointi",
+  "kirjailija": "Ghodrat Moghadampour",
+  "id": "00002",
+  "kappalehinta": 25.90,
+  "ISBN-tunnus": "978-952-63-0658-2"
+  },
+  "kirja3":
+  {
+  "nimi": "kirja1",
+  "kirjailija": "Oskari Sulkakoski",
+  "id": "00003",
+  "kappalehinta": 10.50,
+  "ISBN-tunnus": "999-999-99-9999-9"
+  },
+  "kirja4":
+  {
+  "nimi": "kirja3",
+  "kirjailija": "Oskari Sulkakoski",
+  "id": "00004",
+  "kappalehinta": 12.50,
+  "ISBN-tunnus": "000-000-00-0000-0"
+  }
+}

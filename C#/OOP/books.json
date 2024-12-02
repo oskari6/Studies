@@ -1,0 +1,46 @@
+{
+  "kirja1":
+  {
+  "nimi": "Aapinen",
+  "kirjailija": "Mikael Agrikola",
+  "id": "00001",
+  "kappalehinta": 12.30,
+  "ISBN-tunnus": "978-952-63-5291-6"
+  },
+  "kirja2":
+  {
+  "nimi": "C# ohjelmointi",
+  "kirjailija": "Ghodrat Moghadampour",
+  "id": "00002",
+  "kappalehinta": 25.90,
+  "ISBN-tunnus": "978-952-63-0658-2"
+  },
+ConsoleApp1.Program+JsonItem,
+{
+  "jsonEntry": {
+    "nimi": "kirja3",
+    "kirjailija": "Kirjoittaja3",
+    "id": 4,
+    "kappalehinta": 12.5,
+    "ISBN_tunnus": "000-000-00-0000-0"
+  }
+},
+{
+  "jsonEntry": {
+    "nimi": "kirja1",
+    "kirjailija": "Kirjoittaja1",
+    "id": 3,
+    "kappalehinta": 10.5,
+    "ISBN_tunnus": "999-999-99-9999-9"
+  }
+},
+{
+  "jsonEntry": {
+    "nimi": "Ei saatavilla",
+    "kirjailija": "Ei saatavilla",
+    "id": 0,
+    "kappalehinta": 0.0,
+    "ISBN_tunnus": ""
+  }
+}
+}
