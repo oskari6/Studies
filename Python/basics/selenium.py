@@ -17,5 +17,5 @@ element = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.ID, "some_id"))
 )
 
-time.sleepp(5)
+time.sleep(5)
 driver.quit()

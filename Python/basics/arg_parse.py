@@ -17,4 +17,4 @@ args = parser.parse_args()
 # python arg_parse.py --name "Alice" --age 30 --verbose
 
 #json
-parser.add_argument("--config", type=argparse.FIleType("r"), help="configuration file")
+parser.add_argument("--config", type=argparse.FileType("r"), help="configuration file")
