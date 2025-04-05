@@ -1,0 +1,7 @@
+pip install allure-behave
+
+Execute test cases & genereate report files (json)
+behave -f allure_behave.formatter:AllureFormatter -o reports/ features
+
+Generate Allure reports
+allure serve reports/
