@@ -1,42 +1,28 @@
 def find_first(size, steps):
-    def f(i):
-        if i >= 2:
-            return i - 2
-        elif i == 0:
-            return size - 1
-        elif i == 1:
-            return size - 2
+    # Step 1: Build the base permutation
+    perm = list(range(size))
+    new_perm = perm[:]
+    new_perm = new_perm[2:] + [1, 0]  # Apply one step
 
-    def fast_pow_f(i, power):
-        # Jump index through f function power times using binary exponentiation
-        memo = {}
+    def apply(p1, p2):
+        return [p1[p2[i]] for i in range(size)]
 
-        # Precompute f^1, f^2, f^4, ..., f^(2^k)
-        curr = {}
-        for j in range(size):
-            curr[j] = f(j)
-        memo[1] = curr
+    # Step 2: Fast exponentiation of the permutation
+    result = list(range(size))
+    power = steps
+    current = new_perm[:]
 
-        max_pow = 1
-        while max_pow * 2 <= power:
-            prev = memo[max_pow]
-            new_map = {}
-            for j in range(size):
-                new_map[j] = prev[prev[j]]
-            max_pow *= 2
-            memo[max_pow] = new_map
+    while power > 0:
+        if power % 2 == 1:
+            result = apply(current, result)
+        current = apply(current, current)
+        power //= 2
 
-        # Apply exponentiation
-        result = 0
-        for exp in sorted(memo.keys(), reverse=True):
-            if power >= exp:
-                result = memo[exp][result]
-                power -= exp
-        return result
-
-    final_index = fast_pow_f(0, steps)
-    return final_index + 1
-
+    # Step 3: result[i] tells where element i moved to.
+    # We want to find i such that result[i] == 0
+    for i in range(size):
+        if result[i] == 0:
+            return i + 1
 if __name__ == "__main__":
     print(find_first(4, 3)) # 4
     print(find_first(12, 5)) # 11

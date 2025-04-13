@@ -1,37 +1,57 @@
-def find_codes(pattern):
-    if "?" not in pattern: 
-        return [pattern]
-    codes = []
+import itertools
+import re
 
-    for num in range(1234,9877):
-        if check_valid(str(num)) and check_code(str(num), pattern):
-            codes.append(str(num))
-    return codes
+class Oracle:
+    def __init__(self, code):
+        self.code = code
+        self.counter = 0
 
-def check_code(num, code):
-    for i in range(len(code)):
-        if code[i] == "?":
-            continue
-        if num[i] != code[i]:
-            return False
-    return True
+    def check_code(self, code):
+        self.counter += 1
+        if self.counter > 16:
+            raise RuntimeError("too many check_code calls")
 
-def check_valid(number):
-    if len(set(number)) == 4 and "0" not in number:
-        return True
-    return False
+        if type(code) != str or not re.match("^[1-9]{4}$", code) or len(code) != len(set(code)):
+            raise RuntimeError("invalid code for check_code")
+
+        in_place = in_code = 0
+        for pos in range(4):
+            if code[pos] in self.code:
+                if code[pos] == self.code[pos]:
+                    in_place += 1
+                else:
+                    in_code += 1
+
+        return in_place, in_code
+
+def evaluate(code1, code2):
+    in_place = sum(a == b for a, b in zip(code1, code2))
+    in_code = sum(min(code1.count(d), code2.count(d)) for d in set(code1)) - in_place
+    return (in_place, in_code)
+
+def find_code(oracle):
+    digits = "123456789"
+    candidates = ["".join(p) for p in itertools.permutations(digits, 4)]
+    
+    for _ in range(16):
+        guess = candidates[0]
+        feedback = oracle.check_code(guess)
+        if feedback == (4, 0):
+            return guess
+        
+        candidates = [code for code in candidates if evaluate(guess, code) == feedback]
+    
+    raise RuntimeError("Failed to find the code within 16 queries")
 
 if __name__ == "__main__":
-    codes = find_codes("24?5")
-    print(codes) # ['2415', '2435', '2465', '2475', '2485', '2495']
+    # example of using the oracle
+    oracle = Oracle("4217")
+    print(oracle.check_code("1234")) # (1, 2)
+    print(oracle.check_code("3965")) # (0, 0)
+    print(oracle.check_code("4271")) # (2, 2)
+    print(oracle.check_code("4217")) # (4, 0)
 
-    codes = find_codes("1?2?")
-    print(codes[:5]) # ['1324', '1325', '1326', '1327', '1328']
-    print(len(codes)) # 42
-
-    codes = find_codes("????")
-    print(codes[:5]) # ['1234', '1235', '1236', '1237', '1238']
-    print(len(codes)) # 3024
-    
-    codes = find_codes("3148")
-    print(codes)
+    # example of using the function find_code
+    oracle = Oracle("4517")
+    code = find_code(oracle)
+    print(code) # 4217

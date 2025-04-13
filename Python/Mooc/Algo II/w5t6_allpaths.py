@@ -3,37 +3,33 @@ class AllPaths:
         self.n = n
         self.graph = {i:[] for i in range(1,n+1)}
 
-    def add_edge(self, a, b):
+    def add_edge(self, a,b):
         self.graph[a].append(b)
 
-    def topological_sort(self):
+    def count(self):
         visited = set()
         order = []
 
         def dfs(node):
-            if node in visited:
-                return
+            if node in visited: return
             visited.add(node)
             for neighbor in self.graph[node]:
                 dfs(neighbor)
             order.append(node)
-
-        for node in range(1, self.n+1):
+        
+        for node in range(1,self.n+1):
             dfs(node)
 
         order.reverse()
-        return order
-    
-    def count(self):
-        topological_order = self.topological_sort()
-        dp = {node: 0 for node in range(1, self.n +1)}
-        total_paths = 0
 
-        for node in reversed(topological_order):
+        dp = [0] * (self.n +1)
+        for node in reversed(order):
+            if dp[node] == 0:
+                dp[node] = 1
             for neighbor in self.graph[node]:
-                dp[node] += dp[neighbor]+1
-            total_paths += dp[node]
-        return total_paths
+                dp[node] += dp[neighbor]
+
+        return sum(dp[1:])
 
 if __name__ == "__main__":
     counter = AllPaths(4)
