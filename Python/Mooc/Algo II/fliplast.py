@@ -1,28 +1,26 @@
 def find_first(size, steps):
-    # Step 1: Build the base permutation
-    perm = list(range(size))
-    new_perm = perm[:]
-    new_perm = new_perm[2:] + [1, 0]  # Apply one step
+    # Create the initial permutation
+    P = list(range(size))
+    # Move first two elements to end in reverse order
+    P = P[2:] + [1, 0]  # Only affects indices
 
-    def apply(p1, p2):
-        return [p1[p2[i]] for i in range(size)]
+    # Function to compose two permutations
+    def compose(A, B):
+        return [B[a] for a in A]
 
-    # Step 2: Fast exponentiation of the permutation
-    result = list(range(size))
-    power = steps
-    current = new_perm[:]
+    # Exponentiation by squaring of the permutation
+    def permute_pow(P, power):
+        result = list(range(size))  # Identity permutation
+        while power > 0:
+            if power % 2 == 1:
+                result = compose(result, P)
+            P = compose(P, P)
+            power //= 2
+        return result
 
-    while power > 0:
-        if power % 2 == 1:
-            result = apply(current, result)
-        current = apply(current, current)
-        power //= 2
+    final_perm = permute_pow(P, steps)
+    return final_perm[0] + 1
 
-    # Step 3: result[i] tells where element i moved to.
-    # We want to find i such that result[i] == 0
-    for i in range(size):
-        if result[i] == 0:
-            return i + 1
 if __name__ == "__main__":
     print(find_first(4, 3)) # 4
     print(find_first(12, 5)) # 11

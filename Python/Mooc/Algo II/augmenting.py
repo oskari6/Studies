@@ -8,7 +8,12 @@ class MaximumFlow:
                 self.graph[(i,j)] = 0
 
     def add_edge(self, a, b, capacity):
-        self.graph[(a,b)] += capacity
+        if (a, b) not in self.graph:
+            self.graph[(a, b)] = 0
+        if (b, a) not in self.graph:
+            self.graph[(b, a)] = 0
+
+        self.graph[(a, b)] += capacity
     
     def add_flow(self, node, sink, flow):
         if node in self.seen: return 0
@@ -41,38 +46,43 @@ class MaximumFlow:
 
 def create_edges(x):
     edges = []
-    intermediates = list(range(2, 100)) 
+    intermediates = list(range(2, 100))  # nodes 2–99
 
     if x <= 98:
         for i in range(x):
             mid = intermediates[i]
             edges.append((1, mid, 1))
             edges.append((mid, 100, 1))
-    else:
-        # 2 jumps 1-2-100
+    elif x == 99:
         for i in range(98):
             mid = intermediates[i]
             edges.append((1, mid, 1))
             edges.append((mid, 100, 1))
 
-        # 3 jumps 1-2-3-100
-        if x == 99:
-            edges.append((1, 2, 1))
-            edges.append((2, 3, 1))
-            edges.append((3, 100, 1))
-        elif x == 100:
-            edges.append((1, 2, 1))
-            edges.append((2, 3, 1))
-            edges.append((3, 100, 1))
+        # One 3-hop path using unused nodes: 1 → 98 → 99 → 100
+        edges.append((1, 98, 1))
+        edges.append((98, 99, 1))
+        edges.append((99, 100, 1))
 
-            edges.append((1, 4, 1))
-            edges.append((4, 5, 1))
-            edges.append((5, 100, 1))
+    elif x == 100:
+        for i in range(98):
+            mid = intermediates[i]
+            edges.append((1, mid, 1))
+            edges.append((mid, 100, 1))
+
+        # Use extra nodes beyond 100 to avoid collisions
+        edges.append((1, 101, 1))
+        edges.append((101, 102, 1))
+        edges.append((102, 100, 1))
+
+        edges.append((1, 103, 1))
+        edges.append((103, 104, 1))
+        edges.append((104, 100, 1))
 
     return edges
 
 if __name__ == "__main__":
-    edges = create_edges(42)
+    edges = create_edges(100)
 
     maximum_flow = MaximumFlow(range(1, 100 + 1))
 
