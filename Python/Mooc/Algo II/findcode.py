@@ -1,5 +1,6 @@
 import itertools
 import re
+import time
  
 class Oracle:
     def __init__(self, code):
@@ -24,37 +25,39 @@ class Oracle:
  
         return in_place, in_code
  
-def find_code(oracle):
-    digit_groups = ["1234", "5678", "1290"]
-    found_digits = set()
+import itertools
 
-    for group in digit_groups:
-        guess = "".join(d for d in group if d != "0")
-        response = oracle.check_code(guess)
-        if response[0] + response[1] > 0:
-            for d in guess:
-                found_digits.add(d)
-        if len(found_digits) >= 4:
-            break
-    
-    if len(found_digits) > 4:
-        for combo in itertools.combinations(found_digits, 4):
-            guess = "".join(combo)
-            response = oracle.check_code(guess)
-            if response[0] + response[1] == 4:
-                found_digits = set(combo)
-                break
-    
-    for perm in itertools.permutations(found_digits, 4):
-        guess = "".join(perm)
-        response = oracle.check_code(guess)
-        if response == (4,0):
+def get_feedback(secret, guess):
+    in_place = sum(a == b for a, b in zip(secret, guess))
+    in_code = sum(min(secret.count(d), guess.count(d)) for d in set(guess)) - in_place
+    return in_place, in_code
+
+def find_code(oracle):
+    # Step 1: Generate all valid permutations of 4-digit codes (1-9, unique digits)
+    digits = '123456789'
+    candidates = [''.join(p) for p in itertools.permutations(digits, 4)]
+
+    for attempt in range(16):
+        guess = candidates[0]
+        in_place, in_code = oracle.check_code(guess)
+
+        if in_place == 4:
             return guess
-        
-    raise RuntimeError("Failed to find the code within 16 queries")
- 
+
+        # Step 2: Filter out incompatible candidates
+        candidates = [
+            code for code in candidates
+            if get_feedback(code, guess) == (in_place, in_code)
+        ]
+
+    return None  # If not found within 16 tries
+
 if __name__ == "__main__":
     # example of using the function find_code
-    oracle = Oracle("9124")
+    
+    start_time = time.perf_counter()
+    oracle = Oracle("9876")
     code = find_code(oracle)
     print(code) # 4217
+    end_time = time.perf_counter()
+    print(f"1. time: {end_time - start_time:.6f} s")
